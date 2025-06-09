@@ -3,7 +3,8 @@ import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 const serviceHost = process.env.SERVICE_HOST || 'localhost'; // Default to localhost if not set
-const serviceUrl = `http://${serviceHost}:5000`;
+const servicePort = process.env.SERVICE_PORT || '5001';
+const serviceUrl = `http://${serviceHost}:${servicePort}`;
 
 const s3 = new S3Client({
   region: process.env.AWS_DEFAULT_REGION as string,

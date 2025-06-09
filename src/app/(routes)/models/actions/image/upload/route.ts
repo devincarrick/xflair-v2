@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   try {
     //Incoming request is a multipart/form-data with 'file' and 'modelName' fields
     //file is a File type and modelName is a string

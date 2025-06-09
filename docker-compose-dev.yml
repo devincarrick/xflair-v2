@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   app:
     build:
@@ -12,7 +10,7 @@ services:
       - mode=development
       - SERVICE_HOST=host.docker.internal
     env_file:
-      - .env
+      - .env.local
     depends_on:
       - model
 
@@ -22,7 +20,7 @@ services:
       dockerfile: Dockerfile
     image: xflair/tensorflow:latest
     ports:
-      - '5000:5000'
+      - '5001:5000'
     env_file:
-      - ./Models/TensorFlow/.env
+      - .env.local
     entrypoint: /TensorFlow/start/start.sh

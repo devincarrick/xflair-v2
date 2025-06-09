@@ -9,8 +9,9 @@ This project (originally called xflair), provides a user-friendly web interface 
 - **Tweaked by:** [Me](https://github.com/devincarrick)
 
 ## What's New / Improvements
-- [ ] tbd
-
+- [x] Next.js Refactor: Migrated from next/head to the Metadata API in the app directory, following best practices for server/client component separation.
+- [x]Client/Server Component Split: Refactored the root layout to use a server component for metadata and a new ClientLayout.tsx for all interactive logic (state, sidebar, etc.).
+- [x] API Route Refactor: All backend API route files now use environment variables for host/port, eliminating hardcoded URLs.
 
 ## Getting Started
 
@@ -18,6 +19,7 @@ This project (originally called xflair), provides a user-friendly web interface 
 - [ ] Node.js (version >= v18.x)
 - [ ] Docker (optional, for Docker Compose workflows)
 - [ ] AWS Account (S3 Storage)
+- [ ] Python 3.12
 
 ### Installation
 ```bash

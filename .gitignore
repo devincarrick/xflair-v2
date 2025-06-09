@@ -50,5 +50,8 @@ venv/
 /public/RP Data
 /public/heatmap_data.csv
 
-# system design docs
-/docs/system_design/*
+# personal docs
+/docs/*
+
+# cursor
+.cursorignore

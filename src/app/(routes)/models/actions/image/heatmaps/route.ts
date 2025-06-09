@@ -1,7 +1,8 @@
 import { type NextRequest } from 'next/server';
 
 const serviceHost = process.env.SERVICE_HOST || 'localhost'; // Default to localhost if not set
-const serviceUrl = `http://${serviceHost}:5000`;
+const servicePort = process.env.SERVICE_PORT || '5001';
+const serviceUrl = `http://${serviceHost}:${servicePort}`;
 
 export async function POST(req: NextRequest) {
   try {
