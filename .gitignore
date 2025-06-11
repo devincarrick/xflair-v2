@@ -43,7 +43,7 @@ venv/
 /Models/TensorBoard/logs/*
 /Models/TensorFlow/app/assets/*
 /Models/TensorBoard/logs/*
-/Models/TensorFLow/logs/*
+/Models/TensorFlow/logs/*
 .env
 .vscode
 /public/renderTest
@@ -55,3 +55,7 @@ venv/
 
 # cursor
 .cursorignore
+
+# cypress
+/cypress/screenshots/*
+/cypress/videos/*

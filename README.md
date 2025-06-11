@@ -34,6 +34,15 @@ Visit [http://localhost:3000](http://localhost:3000) to view the app.
 
 ### Docker Usage
 #### Development
+Start:
+```bash
+docker compose -f docker-compose-dev.yml up
+```
+Stop: 
+```bash
+docker compose -f docker-compose-dev.yml down
+```
+Rebuild:
 ```bash
 docker compose -f docker-compose-dev.yml up --build
 ```
@@ -49,6 +58,30 @@ docker compose -f docker-compose-tensorboard.yml up --build
 ## Environment Variables
 This project uses environment variables for API keys and secrets. Copy `.env.example` to `.env.local` and fill in your values.
 
+## Running End-to-End (E2E) Tests
+
+This project uses [Cypress](https://www.cypress.io/) for E2E testing.
+
+### Run all tests (headless)
+```bash
+npx cypress run
+```
+
+### Run a specific test file
+```bash
+npx cypress run --spec "cypress/e2e/image-upload.cy.ts"
+```
+
+### Open Cypress interactive UI
+```bash
+npx cypress open
+```
+Then select your desired test from the list.
+
+### Notes
+- Test files are located in `cypress/e2e/`.
+- Fixtures (test files/data) are in `cypress/fixtures/`.
+
 ## Acknowledgments
 - [Charlie Schubach](https://github.com/SchubyTuesday)
 - [Ethan Skalski](https://github.com/ethan-skalski)
@@ -56,3 +89,4 @@ This project uses environment variables for API keys and secrets. Copy `.env.exa
 
 ## License
 MIT
+

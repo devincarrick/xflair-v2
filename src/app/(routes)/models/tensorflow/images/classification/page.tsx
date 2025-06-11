@@ -11,6 +11,8 @@ let count = 0;
 
 let modelName: string = 'MobileNet';
 
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+
 export default function Home() {
   console.log(`===== RENDER ${count++} ======`);
   const states = [
@@ -44,8 +46,16 @@ export default function Home() {
 
   const browse = (e: ChangeEvent<HTMLInputElement>) => {
     inputImage = e.currentTarget.files?.[0];
-    setImgName(`File Name:  ${inputImage?.name}`);
     if (inputImage) {
+      if (inputImage.size > MAX_FILE_SIZE) {
+        alert('File is too large. Max size is 10MB.');
+        inputImage = undefined;
+        setImgName('Browse...');
+        setImgURL('');
+        setButtonState(0);
+        return;
+      }
+      setImgName(`File Name:  ${inputImage.name}`);
       setImgURL(URL.createObjectURL(inputImage));
       setButtonState(1);
     }
@@ -377,6 +387,7 @@ export default function Home() {
               type='file'
               accept='image/*'
               onChange={browse}
+              data-testid="file-input"
             />
           </label>
         )}
@@ -384,17 +395,55 @@ export default function Home() {
           <button
             className='absolute bottom-[2rem] flex justify-center items-center w-[150px] h-[150px] rounded-full cursor-pointer bg-black text-green-300 p-2.5 m-2.5 border-2 border-green-500 hover:border-purple-500 hover:border-4 hover:text-purple-300'
             onClick={uploadClick}
+            data-testid="upload-button"
           >
             Upload
           </button>
         )}
-        {buttonState === 2 && (
-          <label
-            className='absolute bottom-[2rem] flex justify-center items-center w-[150px] h-[150px] rounded-full cursor-pointer bg-black text-slate-500 p-2.5 m-2.5 border-2 border-slate-500 hover:border-red-500 hover:border-4 hover:text-red-300'
-            onClick={clearClick}
+        {filePath && (
+          <div data-testid="uploaded-file-path" className="text-xs text-green-400 mt-2">{filePath}</div>
+        )}
+        {filePath && (
+          <button
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+            onClick={() => predict(data, modelName)}
+            data-testid="predict-button"
           >
-            Reset
-          </label>
+            Predict
+          </button>
+        )}
+        {predictionName && (
+          <div data-testid="prediction-result" className="mt-2 text-white">
+            Prediction: {formatString(predictionName)}
+          </div>
+        )}
+        {filePath && (
+          <button
+            className="mt-4 px-4 py-2 bg-yellow-500 text-white rounded"
+            onClick={() => heatmaps(data, modelName)}
+            data-testid="heatmaps-button"
+          >
+            Heatmaps
+          </button>
+        )}
+        {heatmapLinks && heatmapLinks.heatmaps && heatmapLinks.heatmaps.length > 0 && (
+          <div data-testid="heatmap-result" className="mt-2 text-white">
+            Heatmaps generated!
+          </div>
+        )}
+        {filePath && (
+          <button
+            className="mt-4 px-4 py-2 bg-gray-500 text-white rounded"
+            onClick={() => logs(data, modelName)}
+            data-testid="logs-button"
+          >
+            Logs
+          </button>
+        )}
+        {vizState && (
+          <div data-testid="logs-result" className="mt-2 text-white">
+            Logs generated!
+          </div>
         )}
       </main>
     </div>
