@@ -52,6 +52,7 @@ venv/
 
 # personal docs
 /docs/*
+/memory_bank/*
 
 # cursor
 .cursorignore
