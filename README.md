@@ -10,15 +10,16 @@ This project (originally called xflair), provides a user-friendly web interface 
 
 ## What's New / Improvements
 - [x] Next.js Refactor: Migrated from next/head to the Metadata API in the app directory, following best practices for server/client component separation.
-- [x]Client/Server Component Split: Refactored the root layout to use a server component for metadata and a new ClientLayout.tsx for all interactive logic (state, sidebar, etc.).
+- [x] Client/Server Component Split: Refactored the root layout to use a server component for metadata and a new ClientLayout.tsx for all interactive logic (state, sidebar, etc.).
 - [x] API Route Refactor: All backend API route files now use environment variables for host/port, eliminating hardcoded URLs.
+- [x] **Image Storage Refactor:** Removed AWS S3 logic. The backend and frontend now use in-memory/base64 image handling for uploads and processing. No cloud storage is required for local development.
+- [x] **Improved Dev Workflow:** Docker Compose now supports live reload for the backend (Flask) and frontend (Next.js) using bind mounts and environment variables.
 
 ## Getting Started
 
 ### Prerequisites
 - [ ] Node.js (version >= v18.x)
-- [ ] Docker (optional, for Docker Compose workflows)
-- [ ] AWS Account (S3 Storage)
+- [ ] Docker (for Docker Compose workflows)
 - [ ] Python 3.12
 
 ### Installation
@@ -46,6 +47,17 @@ Rebuild:
 ```bash
 docker compose -f docker-compose-dev.yml up --build
 ```
+
+**Backend Hot Reload:**
+- The backend (Flask) will auto-reload on code changes if you set `FLASK_DEBUG=1` in the `model` service environment in `docker-compose-dev.yml` (already set by default).
+- The backend container uses a bind mount for live code updates. You should see logs like:
+  ```
+  * Detected change in '/TensorFlow/app/routes/preprocess.py', reloading
+  * Restarting with watchdog (inotify)
+  * Debugger is active!
+  ```
+- If you see Gunicorn starting instead of Flask, ensure `FLASK_DEBUG=1` is set. For production, remove this variable to use Gunicorn.
+
 #### Production
 ```bash
 docker compose -f docker-compose-prod.yml up --build
@@ -56,7 +68,7 @@ docker compose -f docker-compose-tensorboard.yml up --build
 ```
 
 ## Environment Variables
-This project uses environment variables for API keys and secrets. Copy `.env.example` to `.env.local` and fill in your values.
+This project uses environment variables for API keys and secrets. Copy `.env.example` to `.env.local` and fill in your values. For development, ensure `FLASK_DEBUG=1` is set for backend hot reload.
 
 ## Running End-to-End (E2E) Tests
 
@@ -81,6 +93,13 @@ Then select your desired test from the list.
 ### Notes
 - Test files are located in `cypress/e2e/`.
 - Fixtures (test files/data) are in `cypress/fixtures/`.
+
+### Troubleshooting
+- **Backend hot reload not working?**
+  - Make sure `FLASK_DEBUG=1` is set in the `model` service environment in `docker-compose-dev.yml`.
+  - Check that the backend code directory is correctly bind-mounted.
+  - Ensure you see `* Debug mode: on` and `* Restarting with watchdog (inotify)` in the logs.
+  - If Gunicorn starts instead of Flask, double-check your environment variables and `start.sh` logic.
 
 ## Acknowledgments
 - [Charlie Schubach](https://github.com/SchubyTuesday)
